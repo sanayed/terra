@@ -5,9 +5,13 @@ import {
   createSession,
   createUser,
   revokeSession,
+  generateAccessToken,
+  generateRefreshToken,
+  updateRefreshToken,
 } from "./utils";
-import { loginTemplate, registerTemplate } from "./templates";
+import { loginTemplate, signupTemplate } from "./templates";
 
+const secure = process.env.NODE_ENV === "production";
 const router: Router = Router();
 
 router.get("/login", (_req: Request, res: Response) => {
@@ -17,36 +21,56 @@ router.get("/login", (_req: Request, res: Response) => {
 router.post("/login", async (req: Request, res: Response) => {
   const { email, password } = req.body as { email: string; password: string };
 
-  const user = await findUserByEmail(email);
+  try {
+    const user = await findUserByEmail(email);
 
-  if (!user) return res.status(401).send(loginTemplate("User not found"));
+    if (!user) return res.status(401).send(loginTemplate("User not found"));
 
-  if (!(await bcrypt.compare(password, user.password_hash)))
-    return res.status(401).send(loginTemplate("Invalid credentials"));
+    if (!(await bcrypt.compare(password, user.password_hash)))
+      return res.status(401).send(loginTemplate("Invalid credentials"));
 
-  const session = await createSession(user.id);
-  console.log(session);
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
 
-  return res
-    .cookie("sid", session?.id, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
-    })
-    .redirect("/dashboard");
+    updateRefreshToken(user.id, refreshToken);
+
+    return res
+      .cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure,
+        sameSite: "strict",
+        maxAge: 15 * 60 * 1000,
+      })
+      .cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure,
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      })
+      .redirect("/dashboard");
+  } catch (error) {
+    const err = error as any;
+    return res.status(500).send(loginTemplate(err.message));
+  }
 });
 
-router.get("/register", (_req: Request, res: Response) => {
-  res.send(registerTemplate());
+router.get("/", (req: Request, res: Response) => {
+  res.redirect("/auth/login");
 });
 
-router.post("/register", async (req: Request, res: Response) => {
+router.get("/signup", (_req: Request, res: Response) => {
+  res.send(signupTemplate());
+});
+
+router.post("/signup", async (req: Request, res: Response) => {
   const { name, email, password } = req.body as {
     name: string;
     email: string;
     password: string;
   };
+
+  if (!email || !password || !name)
+    return res.status(400).send(signupTemplate("All fields are required"));
 
   try {
     const hashedPwd = await bcrypt.hash(password, 10);
@@ -58,12 +82,12 @@ router.post("/register", async (req: Request, res: Response) => {
       return res
         .status(409)
         .send(
-          registerTemplate(
+          signupTemplate(
             "User with same email id already exists, are you trying to <a href='/auth/login'>log in</a>?"
           )
         );
     }
-    return res.status(401).send(registerTemplate(err.message));
+    return res.status(401).send(signupTemplate(err.message));
   }
 
   res.redirect("/auth/login");

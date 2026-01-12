@@ -50,12 +50,13 @@ export const createSession = async (
 };
 
 export const createUser = async (
+  name: string,
   email: string,
   hashedPwd: string
 ): Promise<void> => {
   await db.query(
-    "INSERT INTO users (id, email, password_hash) VALUES (?, ?, ?)",
-    [uuidv4(), email, hashedPwd]
+    "INSERT INTO users (id, name, email, password_hash) VALUES (?, ?, ?, ?)",
+    [uuidv4(), name, email, hashedPwd]
   );
 };
 

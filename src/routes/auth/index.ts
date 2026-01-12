@@ -42,11 +42,15 @@ router.get("/register", (_req: Request, res: Response) => {
 });
 
 router.post("/register", async (req: Request, res: Response) => {
-  const { email, password } = req.body as { email: string; password: string };
+  const { name, email, password } = req.body as {
+    name: string;
+    email: string;
+    password: string;
+  };
 
   try {
     const hashedPwd = await bcrypt.hash(password, 10);
-    await createUser(email, hashedPwd);
+    await createUser(name, email, hashedPwd);
   } catch (error) {
     const err = error as any;
     console.log(err.message);

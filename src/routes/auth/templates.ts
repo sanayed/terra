@@ -21,6 +21,7 @@ export const registerTemplate = (message: string = ""): string => `
       : ""
   }
   <form method='POST'>
+    <input name='name' type='text' placeholder='Name' required/><br>
     <input name='email' type='email' placeholder='Email' required/><br>
     <input name='password' type='password' placeholder='Password' required/><br>
     <button type='submit'>Register</button>

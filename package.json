@@ -2,10 +2,11 @@
   "name": "terra",
   "version": "1.0.0",
   "description": "A simple project management system using Node.js, Express, and MySQL.",
-  "main": "src/main.js",
+  "main": "src/index.ts",
   "scripts": {
-    "start": "node src/main.js",
-    "dev": "nodemon"
+    "build": "tsc",
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon --exec ts-node src/index.ts"
   },
   "author": "Sanay",
   "license": "ISC",
@@ -14,11 +15,16 @@
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "express-session": "^1.18.2",
     "mysql2": "^3.16.0",
     "uuid": "^13.0.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.0.6",
+    "nodemon": "^3.1.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }

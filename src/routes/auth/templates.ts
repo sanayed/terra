@@ -1,4 +1,4 @@
-const loginTemplate = (message = "") => `
+export const loginTemplate = (message: string = ""): string => `
   <h1>Login</h1>
   ${
     message
@@ -13,7 +13,7 @@ const loginTemplate = (message = "") => `
   <a href="/auth/register">Register</a>
 `;
 
-const registerTemplate = (message = "") => `
+export const registerTemplate = (message: string = ""): string => `
   <h1>Register</h1>
   ${
     message
@@ -27,8 +27,3 @@ const registerTemplate = (message = "") => `
   </form>
   <a href="/auth/login">Login</a>
 `;
-
-module.exports = {
-  loginTemplate,
-  registerTemplate,
-};

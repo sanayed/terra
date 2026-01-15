@@ -1,6 +1,8 @@
 html {
   box-sizing: border-box;
   margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -27,12 +29,23 @@ button {
   padding: 8px 10px;
   margin: 6px 0;
   width: 100%;
+  border-radius: 0.3rem;
+  border: 2px solid #ccc;
+  outline: none;
+}
+
+input[type="text"]:focus-visible,
+input[type="email"]:focus-visible,
+input[type="password"]:focus-visible,
+input[type="submit"]:focus-visible,
+button:focus-visible {
+  border: 2px solid #000;
 }
 
 input[type="submit"],
 button {
   background-color: #4caf50;
+  border: 2px solid #4caf50;
   color: white;
-  border: none;
   cursor: pointer;
 }

@@ -22,7 +22,6 @@ export interface User extends RowDataPacket {
   fullname: string;
   password_hash: string;
   created_at: string;
-  refresh_token: string;
 }
 
 export const findUserByEmail = async (

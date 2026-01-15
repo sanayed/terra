@@ -27,11 +27,10 @@ router.post("/login", async (req: Request, res: Response) => {
 });
 
 router.post("/signup", async (req: Request, res: Response) => {
-  const { username, email, password } = req.body as {
-    username: string;
-    email: string;
-    password: string;
-  };
+  const { fullname, username, email, password } = req.body as Pick<
+    User,
+    "email" | "username" | "fullname"
+  > & { password: string };
 
   if (!email || !password || !username)
     return res
@@ -40,7 +39,7 @@ router.post("/signup", async (req: Request, res: Response) => {
 
   try {
     const hashedPwd = await hash(password, 10);
-    await createUser(username, email, hashedPwd);
+    await createUser({ fullname, username, email, password_hash: hashedPwd });
     const user = (await findUserByEmail(req.body.email)) as User;
 
     makeAndSentTokens(user, res);

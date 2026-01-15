@@ -41,14 +41,18 @@ export const generateRefreshToken = (user: Pick<User, "id" | "email">) => {
   return sign(user, REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
 };
 
-export const createUser = async (
-  username: string,
-  email: string,
-  hashedPwd: string
-): Promise<void> => {
+export const createUser = async ({
+  email,
+  username,
+  fullname,
+  password_hash,
+}: Pick<
+  User,
+  "email" | "username" | "fullname" | "password_hash"
+>): Promise<void> => {
   await db.query(
     "INSERT INTO users (id, email, username, fullname, password_hash) VALUES (?, ?, ?, ?, ?)",
-    [uuidv4(), email, username, username, hashedPwd]
+    [uuidv4(), email, username, fullname, password_hash]
   );
 };
 

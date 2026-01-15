@@ -10,7 +10,6 @@
     <main class="center dvh">
       <h1>Login</h1>
       <form>
-        <input name="username" type="text" placeholder="Name" required /><br />
         <input name="email" type="email" placeholder="Email" required /><br />
         <input
           name="password"
@@ -18,9 +17,9 @@
           placeholder="Password"
           required
         /><br />
-        <button type="submit">Sign Up</button>
+        <button type="submit">Login</button>
       </form>
-      <a href="/auth/login">Or Login</a>
+      <a href="/auth/signup">Or Sign Up</a>
     </main>
   </body>
   <script defer>
@@ -31,19 +30,18 @@
 
       const formData = new FormData(e.target);
 
-      const username = formData.get("username").trim();
-      const email = formData.get("email").trim();
-      const password = formData.get("password").trim();
+      const email = formData.get("email");
+      const password = formData.get("password");
 
-      if (username == "" || email == "" || password == "") {
+      if (email.trim() == "" || password.trim() == "") {
         alert("Null data");
         return;
       }
 
-      const resp = await fetch("/api/signup", {
+      const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ email, password }),
       });
     });
   </script>

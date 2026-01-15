@@ -10,6 +10,18 @@
     <main class="center dvh">
       <h1>Login</h1>
       <form>
+        <input
+          name="fullname"
+          type="text"
+          placeholder="Fullname"
+          required
+        /><br />
+        <input
+          name="username"
+          type="text"
+          placeholder="username"
+          required
+        /><br />
         <input name="email" type="email" placeholder="Email" required /><br />
         <input
           name="password"
@@ -17,9 +29,9 @@
           placeholder="Password"
           required
         /><br />
-        <button type="submit">Login</button>
+        <button type="submit">Sign Up</button>
       </form>
-      <a href="/auth/signup">Or Sign Up</a>
+      <a href="/auth/login">Or Login</a>
     </main>
   </body>
   <script defer>
@@ -30,21 +42,25 @@
 
       const formData = new FormData(e.target);
 
-      const email = formData.get("email");
-      const password = formData.get("password");
+      const fullname = formData.get("fullname").trim();
+      const username = formData.get("username").trim();
+      const email = formData.get("email").trim();
+      const password = formData.get("password").trim();
 
-      if (email.trim() == "" || password.trim() == "") {
+      if (
+        (fullname == "") | (username == "") ||
+        email == "" ||
+        password == ""
+      ) {
         alert("Null data");
         return;
       }
 
-      const resp = await fetch("/api/login", {
+      const resp = await fetch("/api/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ fullname, username, email, password }),
       });
-
-      console.log(resp, await resp.json());
     });
   </script>
 </html>

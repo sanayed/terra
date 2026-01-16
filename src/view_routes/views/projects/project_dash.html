@@ -4,21 +4,92 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Project</title>
+    <style>
+      aside {
+        min-width: 240px;
+        padding: 10px;
+        border-right: 1px solid var(--neutral);
+        user-select: none;
+      }
+      aside h2 {
+        margin-top: 8px;
+        margin-bottom: 2px;
+      }
+      aside h2,
+      aside span {
+        padding-left: 10px;
+      }
+      .content {
+        flex: 1;
+        padding: 1rem;
+      }
+      .text-left {
+        text-align: left;
+        font-size: 16px;
+      }
+
+      .btn.btn-ghost.active-route {
+        background: var(--neutral-hover);
+      }
+    </style>
+
+    <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    Hello World
-    <button id="invite">Make Invite code</button>
-  </body>
-  <script>
-    const PROJECT_ID = $$PROJECT$$;
-    window.addEventListener("load", async () => {
-      const res = await (
-        await fetch(`/api/project/${PROJECT_ID}/members`, {
-          headers: { "Content-Type": "application/json" },
-        })
-      ).json();
+    <div class="title flex-row-between">
+      <div class="flex">
+        <h1>Terra</h1>
+      </div>
+      <input id="search_field" type="search" placeholder="Search" />
+    </div>
+    <div class="flex" style="height: 100dvh; padding-top: var(--title-height)">
+      <aside class="flex flex-col aside">
+        <h2>$$PROJECT_INFO$$.NAME</h2>
+        <span>$$PROJECT_INFO$$.DESCRIPTION</span>
 
-      console.log(res);
+        <div class="flex flex-col" style="margin-top: 20px">
+          <button
+            class="btn btn-ghost text-left"
+            style="margin: 0"
+            data-href="/"
+          >
+            Board
+          </button>
+          <button
+            class="btn btn-ghost text-left"
+            style="margin: 0"
+            data-href="/members"
+          >
+            Members
+          </button>
+        </div>
+      </aside>
+      <div class="content">Nothing Here</div>
+    </div>
+    <!-- Hello World
+    <button id="invite">Make Invite code</button> -->
+  </body>
+  <script src="/router.js"></script>
+  <script defer>
+    const content = document.querySelector(".content");
+    const PROJECT_ID = $$PROJECT$$;
+    const PROJECT_INFO = $$PROJECT_INFO$$;
+
+    const routes = {
+      "/": "board.js",
+      "/members": "members.js",
+    };
+
+    const router = new Router(routes, content, PROJECT_INFO, PROJECT_ID);
+
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-href]");
+      if (!btn) return;
+      e.preventDefault();
+      router.navigate(btn.dataset.href);
     });
+
+    // window.addEventListener("load", router.route());
+    window.addEventListener("popstate", router.route());
   </script>
 </html>

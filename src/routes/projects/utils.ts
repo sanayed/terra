@@ -24,6 +24,13 @@ export const getProjects = async (id: string) => {
   );
   return rows;
 };
+export const getProject = async (id: string) => {
+  const [rows] = await db.query<Project[]>(
+    `SELECT * from projects WHERE id = ?`,
+    [id]
+  );
+  return rows;
+};
 
 export const createProject = async (
   user_id: string,

@@ -21,7 +21,6 @@ router.get("/projects", async (req: Request, res: Response) => {
 router.post("/project", async (req: Request, res: Response) => {
   const user = req.user as any;
   const projectData = req.body;
-  console.log(projectData);
 
   try {
     await createProject(user.id, {

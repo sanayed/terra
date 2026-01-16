@@ -6,6 +6,7 @@ import "dotenv/config";
 import authRouter from "./routes/auth";
 import viewRouter from "./view_routes";
 import projectsRouter from "./routes/projects";
+import issuesRouter from "./routes/issues";
 import { HOST, PORT } from "./constants";
 
 const app: Express = express();
@@ -22,7 +23,7 @@ app.use((req, _res, next) => {
 });
 
 app.use("/", viewRouter);
-app.use("/api", authRouter, projectsRouter);
+app.use("/api", authRouter, projectsRouter, issuesRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port http://${HOST}:${PORT}`);

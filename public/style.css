@@ -2,11 +2,16 @@
   --primary: #4c63af;
   --primary-muted: #3e518e;
   --neutral: #ccc;
-  --radius: 0.7rem;
+  --neutral-hover: #ebebeb;
+  --radius: 8px;
+  --title-height: 50px;
 }
 html {
-  box-sizing: border-box;
   margin: 0;
+}
+
+* {
+  box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -28,11 +33,13 @@ body {
 }
 
 input[type="text"],
+select,
 input[type="email"],
 input[type="password"],
 input[type="submit"],
 input[type="search"],
-button {
+button,
+.btn {
   padding: 8px 10px;
   margin: 6px 0;
   border-radius: var(--radius);
@@ -42,20 +49,24 @@ button {
 }
 
 input[type="text"]:focus-visible,
+select:focus-visible,
 input[type="email"]:focus-visible,
 input[type="password"]:focus-visible,
 input[type="submit"]:focus-visible,
 input[type="search"]:focus-visible,
-button:focus-visible {
+button:focus-visible,
+.btn:focus-visible {
   border: 1px solid var(--primary-muted);
 }
 
 input[type="submit"],
-button {
+button,
+.btn {
   background-color: var(--primary);
   border: 1px solid var(--primary);
   color: white;
   cursor: pointer;
+  text-decoration: none;
 }
 
 input[type="submit"]:active,
@@ -65,21 +76,24 @@ button:active {
   border: 1px solid var(--primary-muted);
 }
 
-input[type="submit"].ghost,
-button.ghost {
+input[type="submit"].btn-ghost,
+button.btn-ghost,
+.btn.btn-ghost {
   background: transparent;
   color: black;
   border: 1px solid transparent;
 }
 
-input[type="submit"].ghost:active,
-button.ghost:active {
+input[type="submit"].btn-ghost:active,
+button.btn-ghost:active,
+.btn.btn-ghost:active {
   background: transparent;
   color: var(--primary);
 }
-input[type="submit"].ghost:hover,
-button.ghost:hover {
-  background: var(--neutral);
+input[type="submit"].btn-ghost:hover,
+button.btn-ghost:hover,
+.btn.btn-ghost:hover {
+  background: var(--neutral-hover);
 }
 
 .container {
@@ -90,4 +104,40 @@ button.ghost:hover {
 
 a {
   color: var(--primary);
+}
+
+.title {
+  color: var(--primary);
+  border-bottom: 1px solid #ccc;
+  padding-inline: 20px;
+  height: var(--title-height);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+}
+.title h1 {
+  margin: 0.4rem 0;
+}
+
+/* Utilities */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+.items-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: "center";
+}
+
+.flex-row-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

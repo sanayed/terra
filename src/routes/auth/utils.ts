@@ -3,9 +3,7 @@ import { JwtPayload, sign, verify, VerifyCallback } from "jsonwebtoken";
 import db from "../../utils/db";
 import { v4 as uuidv4 } from "uuid";
 import { RowDataPacket } from "mysql2/promise";
-
-const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
-const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
+import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from "../../constants";
 
 if (!ACCESS_TOKEN_SECRET) {
   throw new Error("ACCESS_TOKEN_SECRET is not defined");
@@ -34,11 +32,11 @@ export const findUserByEmail = async (
 };
 
 export const generateAccessToken = (user: Pick<User, "id" | "email">) => {
-  return sign(user, ACCESS_TOKEN_SECRET, { expiresIn: "30m" });
+  return sign(user, ACCESS_TOKEN_SECRET as string, { expiresIn: "30m" });
 };
 
 export const generateRefreshToken = (user: Pick<User, "id" | "email">) => {
-  return sign(user, REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
+  return sign(user, REFRESH_TOKEN_SECRET as string, { expiresIn: "7d" });
 };
 
 export const createUser = async ({
@@ -60,7 +58,7 @@ export const verifyRefresh = (
   token: string,
   callback?: VerifyCallback<JwtPayload | string>
 ) => {
-  return verify(token, REFRESH_TOKEN_SECRET, callback);
+  return verify(token, REFRESH_TOKEN_SECRET as string, callback);
 };
 
 export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
@@ -72,7 +70,7 @@ export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
       message: "Unauthorized",
     });
 
-  verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
+  verify(token, ACCESS_TOKEN_SECRET as string, (err, user) => {
     if (err)
       return res.status(403).json({
         success: false,

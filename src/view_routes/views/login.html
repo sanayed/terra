@@ -38,11 +38,19 @@
         return;
       }
 
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await (
+        await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        })
+      ).json();
+
+      if (res.success == true) {
+        window.location.pathname = "/projects/";
+      }
+
+      // if(res)
     });
   </script>
 </html>

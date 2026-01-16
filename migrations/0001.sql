@@ -4,28 +4,29 @@ CREATE TABLE users (
     username VARCHAR(50) UNIQUE NOT NULL,
     fullname VARCHAR(255) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    is_online BOOLEAN DEFAULT FALSE
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE = InnoDB;
 CREATE TABLE projects (
     id CHAR(36) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
+    status ENUM('active', 'rejected', 'postponed') DEFAULT 'active',
     created_by CHAR(36) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_project (created_by, name)
 ) ENGINE = InnoDB;
-CREATE INDEX idx_projects_created_by ON projects(created_by);
-CREATE INDEX idx_project_members_user ON project_members(user_id);
+-- Table for User to Project N:N relation
 CREATE TABLE project_members (
     id INT AUTO_INCREMENT PRIMARY KEY,
     project_id CHAR(36) NOT NULL,
     user_id CHAR(36) NOT NULL,
-    role VARCHAR(20) DEFAULT 'developer',
+    role ENUM('member', 'manager', 'admin') DEFAULT 'member',
     UNIQUE KEY (project_id, user_id),
     FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE = InnoDB;
+-- Table to store refresh tokens
 CREATE TABLE refresh_tokens (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id CHAR(36) NOT NULL,
@@ -35,3 +36,5 @@ CREATE TABLE refresh_tokens (
     expires_at TIMESTAMP NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE = InnoDB;
+CREATE INDEX idx_projects_created_by ON projects(created_by);
+CREATE INDEX idx_project_members_user ON project_members(user_id);

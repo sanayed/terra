@@ -5,20 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>App</title>
     <style>
+      .flex-row-between {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
       .title {
-        display: grid;
-        place-items: center;
-        background-color: var(--primary);
-        color: white;
+        color: var(--primary);
+        border-bottom: 1px solid #ccc;
+        padding-inline: 20px;
       }
       .title h1 {
         margin: 0.4rem 0;
-      }
-      .header {
-        display: flex;
-        padding: 20;
-        justify-content: space-between;
-        align-items: center;
       }
 
       .data-table {
@@ -26,7 +24,7 @@
         border: 1px solid #d6d6e7;
         font-family: system-ui, -apple-system, sans-serif;
         background: #fff;
-        border-radius: 8px;
+        border-radius: var(--radius);
         overflow: hidden;
       }
 
@@ -54,30 +52,88 @@
       .data-table tbody tr:hover {
         background: #f9fafb;
       }
+
+      .modal {
+        width: 400px;
+        background-color: white;
+        border-radius: var(--radius);
+        border: 1px solid var(--neutral);
+        box-shadow: 0px 4px 6px 3px #0000001c;
+        padding: 1.2em;
+      }
+      .modal::backdrop {
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+      .modal h2 {
+        margin: 0;
+      }
+      .form {
+        display: flex;
+        flex-direction: column;
+      }
+      #form_errors {
+        color: #fc736c;
+        font-size: 1rem;
+        margin: 0;
+      }
+      .status {
+        display: block;
+        width: 10px;
+        height: 10px;
+        margin-right: 10px;
+        border-radius: 100px;
+      }
     </style>
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    <div class="title"><h1>Terra</h1></div>
+    <div class="title flex-row-between">
+      <h1>Terra</h1>
+      <input id="search_field" type="search" placeholder="Search" />
+    </div>
     <div class="container">
-      <div class="header">
+      <div class="header flex-row-between">
         <h2>Browse Projects</h2>
-        <button>Create New Project</button>
+        <button id="create">Create New Project</button>
       </div>
       <div id="response_container"></div>
     </div>
+    <dialog class="modal">
+      <div class="flex-row-between" style="padding-bottom: 1rem">
+        <h2>Create a new Project</h2>
+        <button id="close" class="ghost">Close</button>
+      </div>
+      <form class="form">
+        <input
+          type="text"
+          name="name"
+          placeholder="Project Name"
+          autocomplete="off"
+        />
+        <input
+          type="text"
+          name="description"
+          placeholder="Project Description"
+          autocomplete="off"
+        />
+        <input type="submit" value="Submit" />
+        <p id="form_errors"></p>
+      </form>
+    </dialog>
   </body>
   <script defer>
-    window.addEventListener("load", async () => {
-      const { data } = await (
-        await fetch("/api/projects", {
-          headers: { "Content-Type": "application/json" },
-        })
-      ).json();
-
+    function makeProjectStatusIndicator(status) {
+      const statusColors = {
+        active: "#3bcf2f",
+        rejected: "#ff6161",
+        postponed: "#ddb200",
+      };
+      return `<span class="status" style='background-color:${statusColors[status]}'></span>`;
+    }
+    function populatePojects(projects) {
       const div = document.querySelector("#response_container");
       let dom;
-      if (data.projects.length > 0) {
+      if (projects.length > 0) {
         dom = `
           <table class="data-table">
             <thead>
@@ -85,11 +141,12 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Project Lead</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>`;
 
-        data.projects.forEach((project) => {
+        projects.forEach((project) => {
           dom =
             dom +
             `
@@ -97,14 +154,16 @@
               <td><a href="/projects/${project.id}/">${project.name}</a></td>
               <td>${project.description}</td>
               <td>${project.owner_name}</td>
+              <td style="display:flex; align-items:center;">${makeProjectStatusIndicator(
+                project.status
+              )} ${project.status.toUpperCase()}</td>
             </tr>
           `;
         });
 
         dom =
           dom +
-          `</tr>
-            </tbody>
+          `</tbody>
           </table>
         `;
 
@@ -112,6 +171,58 @@
       } else {
         div.innerHTML = `<span>You have no projetcs created/assigned to.</span>`;
       }
+    }
+
+    const modal = document.querySelector(".modal");
+    const createBtn = document.querySelector("#create");
+    const closeBtn = document.querySelector("#close");
+    const form = document.querySelector(".form");
+    const formErrors = document.querySelector("#form_errors");
+
+    createBtn.addEventListener("click", () => {
+      modal.showModal();
+    });
+    closeBtn.addEventListener("click", () => {
+      modal.close();
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const name = formData.get("name").trim();
+      const description = formData.get("description").trim();
+      if (name == "" || description == "") {
+        formErrors.innerHTML = "Null Values";
+        return;
+      }
+
+      const res = await (
+        await fetch("/api/project", {
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+          body: JSON.stringify({
+            name,
+            description,
+          }),
+        })
+      ).json();
+
+      if (res.success) {
+        modal.close();
+        populatePojects(res.data.projects);
+      } else {
+        formErrors.innerHTML = res.message;
+      }
+    });
+
+    window.addEventListener("load", async () => {
+      const { data } = await (
+        await fetch("/api/projects", {
+          headers: { "Content-Type": "application/json" },
+        })
+      ).json();
+
+      populatePojects(data.projects);
     });
   </script>
 </html>

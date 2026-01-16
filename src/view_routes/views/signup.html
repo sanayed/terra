@@ -56,11 +56,19 @@
         return;
       }
 
-      const resp = await fetch("/api/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fullname, username, email, password }),
-      });
+      const res = await (
+        await fetch("/api/signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ fullname, username, email, password }),
+        })
+      ).json();
+
+      console.log(res);
+
+      if (res.success == true) {
+        window.location.pathname = "/projects/";
+      }
     });
   </script>
 </html>

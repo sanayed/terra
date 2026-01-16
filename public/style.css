@@ -1,6 +1,8 @@
 :root {
   --primary: #4c63af;
   --primary-muted: #3e518e;
+  --neutral: #ccc;
+  --radius: 0.7rem;
 }
 html {
   box-sizing: border-box;
@@ -29,11 +31,12 @@ input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="submit"],
+input[type="search"],
 button {
   padding: 8px 10px;
   margin: 6px 0;
-  border-radius: 0.3rem;
-  border: 2px solid #ccc;
+  border-radius: var(--radius);
+  border: 1px solid var(--neutral);
   outline: none;
   transition: 0.2s ease;
 }
@@ -42,14 +45,15 @@ input[type="text"]:focus-visible,
 input[type="email"]:focus-visible,
 input[type="password"]:focus-visible,
 input[type="submit"]:focus-visible,
+input[type="search"]:focus-visible,
 button:focus-visible {
-  border: 2px solid var(--primary-muted);
+  border: 1px solid var(--primary-muted);
 }
 
 input[type="submit"],
 button {
   background-color: var(--primary);
-  border: 2px solid var(--primary);
+  border: 1px solid var(--primary);
   color: white;
   cursor: pointer;
 }
@@ -58,11 +62,32 @@ input[type="submit"]:active,
 button:active {
   transform: translateY(2px);
   background-color: var(--primary-muted);
-  border: 2px solid var(--primary-muted);
+  border: 1px solid var(--primary-muted);
+}
+
+input[type="submit"].ghost,
+button.ghost {
+  background: transparent;
+  color: black;
+  border: 1px solid transparent;
+}
+
+input[type="submit"].ghost:active,
+button.ghost:active {
+  background: transparent;
+  color: var(--primary);
+}
+input[type="submit"].ghost:hover,
+button.ghost:hover {
+  background: var(--neutral);
 }
 
 .container {
   max-width: 1408px;
   padding-inline: 1rem;
   margin-inline: auto;
+}
+
+a {
+  color: var(--primary);
 }

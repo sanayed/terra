@@ -29,9 +29,9 @@ CREATE TABLE project_members (
 CREATE TABLE issues(
     id CHAR(36) PRIMARY KEY,
     project_id CHAR(36) NOT NULL,
-    description TEXT,
+    description TEXT NOT NULL,
     issue_type ENUM('task', 'bug', 'story') NOT NULL DEFAULT 'task',
-    status ENUM('todo', 'in_progress', 'review', 'done') NOT NULL DEFAULT 'todo',
+    status ENUM('todo', 'in_progress', 'in_review', 'done') NOT NULL DEFAULT 'todo',
     priority ENUM('low', 'medium', 'high', 'critical') NOT NULL DEFAULT 'medium',
     reporter_id CHAR(36) NOT NULL,
     assignee_id CHAR(36) NULL,

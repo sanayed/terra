@@ -1,56 +1,38 @@
-# Terra
+# sv
 
-A simple project management system built with Node.js, Express, and MySQL. A Collage Minor Project
+Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
-## Tech Stack
+## Creating a project
 
-- **Backend**: Node.js, Express, TypeScript
-- **Database**: MySQL
+If you're seeing this, you've probably already done this step. Congrats!
 
-## Prerequisites
+```sh
+# create a new project in the current directory
+npx sv create
 
-- Node.js (version 18 or higher)
-- MySQL
+# create a new project in my-app
+npx sv create my-app
+```
 
-## Setup
+## Developing
 
-1. **Clone the repository**:
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
-   ```bash
-   git clone https://github.com/sanayed/terra
-   cd terra
-   ```
+```sh
+npm run dev
 
-2. **Install dependencies**:
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
+```
 
-   ```bash
-   pnpm install
-   ```
+## Building
 
-3. **Set up environment variables**:
-   Copy `.env.example` to `.env` and fill in your database credentials and JWT secrets:
+To create a production version of your app:
 
-   ```bash
-   cp .env.example .env
-   ```
+```sh
+npm run build
+```
 
-   Edit `.env` with your actual values for database connection and secrets.
+You can preview the production build with `npm run preview`.
 
-4. **Set up the database**:
-   Run migration (in `/migrations`)
-
-5. **Run the application**:
-   ```bash
-   pnpm dev
-   ```
-   The server will start on `http://localhost:3000` (or the port specified in your `.env`).
-
-## Usage
-
-- Visit `http://localhost:3000` to access the home page.
-- Sign up for a new account or log in with existing credentials.
-- Access your protected dashboard at `/dashboard`.
-
-## License
-
-ISC
+> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.

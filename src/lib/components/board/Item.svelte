@@ -33,8 +33,9 @@
 
 <div class="mb-3 flex items-center justify-between">
 	<div class="flex items-center gap-2">
-		<IconComponent />
-		<span class=" text-xs font-semibold text-neutral-500">{issue.issue_type.toUpperCase()}</span>
+		<IconComponent class="stroke-base-content/50" />
+		<span class=" text-xs font-semibold text-base-content/50">{issue.issue_type.toUpperCase()}</span
+		>
 	</div>
 
 	<span class={`text-xs font-semibold ${mapIssuePriorityToColor(issue.priority)}`}
@@ -42,4 +43,4 @@
 	>
 </div>
 {issue.description}
-<span>{issue.status}</span>
+<!-- <span class="opacity-50">{issue.status}</span> -->

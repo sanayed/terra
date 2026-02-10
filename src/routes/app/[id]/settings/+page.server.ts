@@ -1,13 +1,12 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import { deleteProject } from '$lib/server/projects';
+import { deleteProject, updateProject } from '$lib/server/projects';
 
 export const actions: Actions = {
-	projectUpdate: async ({ request }) => {
+	projectUpdate: async ({ request, params }) => {
 		const data = await request.formData();
 		const name = data.get('name') as string;
 		const description = data.get('description') as string;
-		console.log(name, description);
 
 		if (name.trim() == '' && description.trim() == '') {
 			return fail(500, {
@@ -15,7 +14,13 @@ export const actions: Actions = {
 			});
 		}
 
-		return { success: true };
+		try {
+			await updateProject(params.id, { name, description });
+		} catch (error) {
+			return fail(500, {
+				error: error instanceof Error ? error.message : 'Failed to update project details'
+			});
+		}
 	},
 	deleteProject: async ({ params, locals }) => {
 		try {

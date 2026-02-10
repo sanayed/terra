@@ -8,5 +8,7 @@ export const load: LayoutServerLoad = async ({ params, locals }) => {
 	if (!project) throw error(404, { message: 'Not Found' });
 	const isAdmin = project.created_by == locals.user?.id;
 
+	locals.project = project;
+
 	return { project, isAdmin };
 };

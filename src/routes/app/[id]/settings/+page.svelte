@@ -7,10 +7,6 @@
 	let name = $derived(data.project?.name);
 	let description = $derived(data.project?.description);
 	const isAdmin = $derived(data.isAdmin);
-
-	$effect(() => {
-		console.log(form);
-	});
 </script>
 
 <section class="mx-auto w-full max-w-7xl">
@@ -38,7 +34,17 @@
 	{/if}
 
 	<div class="flex-1 px-3">
-		<form action="?/projectUpdate" method="POST" use:enhance>
+		<form
+			action="?/projectUpdate"
+			method="POST"
+			use:enhance={() => {
+				return async ({ result }) => {
+					if ((result.type = 'success')) {
+						alert('Project Info updated');
+					}
+				};
+			}}
+		>
 			<fieldset class="fieldset">
 				<legend class="fieldset-legend">Project Name</legend>
 				<input
@@ -76,8 +82,8 @@
 				disabled={!isAdmin}
 			/>
 		</fieldset>
-		<div class="card my-4 mt-10 flex flex-col border border-red-600 bg-red-50 p-4">
-			<h3 class="text-lg font-semibold text-red-600">Danger Zone</h3>
+		<div class="card my-4 mt-10 flex flex-col border border-error bg-error/20 p-4">
+			<h3 class="text-lg font-semibold text-error">Danger Zone</h3>
 			<p>Once you delete a project, there is no going back. Please be certain.</p>
 			<form method="POST" action="?/deleteProject" use:enhance>
 				<button

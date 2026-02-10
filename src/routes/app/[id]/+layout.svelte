@@ -5,7 +5,7 @@
 </script>
 
 <main class="flex h-full">
-	<aside class="h-sidebar flex min-w-3xs flex-col border-r border-r-neutral-300 p-2">
+	<aside class="h-sidebar flex min-w-3xs flex-col border-r border-r-base-content/20 p-2">
 		<div
 			class="m-2 flex flex-col items-start rounded-xl border border-primary/30 bg-primary/10 px-3"
 		>

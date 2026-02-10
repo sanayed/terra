@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { goto } from '$app/navigation';
 	import { MOCK_DATA } from '$lib';
 	import Board from '$lib/components/board/Board.svelte';
 	import { Plus } from '@lucide/svelte';
 	const { data } = $props();
 
-	const appState = $state(MOCK_DATA);
+	const appState = $derived([...(data.issues as any[]), ...MOCK_DATA]);
 
 	const todos = $derived(appState.filter((v) => v.status === 'todo'));
 	const in_progress = $derived(appState.filter((v) => v.status === 'in_progress'));
@@ -43,6 +42,10 @@
 				return async ({ result }) => {
 					if (result.type === 'success') {
 						modalRef?.close();
+					} else if (result.type == 'failure') {
+						console.log(result?.data);
+					} else if (result.type == 'error') {
+						alert('Unknown error occured');
 					}
 				};
 			}}

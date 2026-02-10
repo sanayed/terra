@@ -4,7 +4,7 @@
 </script>
 
 <header
-	class="fixed top-0 right-0 left-0 flex h-(--header-height) items-center justify-between border-b border-b-neutral-300 bg-white px-4"
+	class="bg-base fixed top-0 right-0 left-0 flex h-(--header-height) items-center justify-between border-b border-b-base-content/20 px-4"
 >
 	<!-- <h2 class="text-3xl font-bold text-primary">terra.</h2> -->
 	<Logo width={60} />

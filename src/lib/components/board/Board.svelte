@@ -16,9 +16,9 @@
 </script>
 
 <div
-	class="flex h-full w-full min-w-60 flex-col rounded-[14px] border border-neutral-300 bg-base-200 p-3"
+	class="flex h-full w-full min-w-60 flex-col rounded-lg border border-base-content/20 bg-base-300 p-3"
 >
-	<span class="text-sm text-neutral-600 select-none">{title}</span>
+	<span class="text-sm text-base-content/50 select-none">{title}</span>
 	<ul
 		class="mt-4 min-h-6 space-y-2"
 		use:dndzone={{
@@ -32,7 +32,7 @@
 		{#each issues as issue (issue.id)}
 			<div
 				animate:flip={{ duration: flipDurationMs }}
-				class="flex flex-col rounded-field border border-neutral-200 bg-base-100 p-3"
+				class="flex flex-col rounded-lg border border-base-content/20 bg-base-100 p-3"
 			>
 				<Item {issue} />
 			</div>

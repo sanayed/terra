@@ -1,12 +1,12 @@
 @import 'tailwindcss';
 @plugin 'daisyui' {
-	themes: light --default;
+	themes: terra_light --default;
 }
 
 @plugin 'daisyui/theme' {
-	name: 'light';
-	default: true;
+	name: 'terra_light';
 	prefersdark: false;
+	default: true;
 	color-scheme: 'light';
 	--color-base-100: oklch(100% 0 0);
 	--color-base-200: oklch(98% 0 0);

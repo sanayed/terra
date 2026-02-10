@@ -68,6 +68,23 @@ export const createProject = async (
 	return project_id;
 };
 
+export const updateProject = async (
+	project_id: string,
+	{
+		name,
+		description
+	}: {
+		name: string;
+		description: string;
+	}
+) => {
+	return await db.execute(`UPDATE projects SET name = ?, description = ? WHERE id = ?`, [
+		name,
+		description,
+		project_id
+	]);
+};
+
 export async function deleteProject(projectId: string, userId: string) {
 	// Verify the user owns the project
 	const [projects] = await db.query<Project[]>(

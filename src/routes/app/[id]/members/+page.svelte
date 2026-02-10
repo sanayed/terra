@@ -15,6 +15,7 @@
 
 	<div class="mb-4 flex items-center justify-between px-3">
 		<h1 class="text-3xl font-semibold text-primary">Members</h1>
+		<button class="btn btn-primary">Invite</button>
 	</div>
 
 	<div class="overflow-x-auto">

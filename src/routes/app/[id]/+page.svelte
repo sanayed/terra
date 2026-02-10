@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { invalidateAll } from '$app/navigation';
 	import { MOCK_DATA } from '$lib';
 	import Board from '$lib/components/board/Board.svelte';
 	import { Plus } from '@lucide/svelte';
 	const { data } = $props();
 
-	const appState = $derived([...(data.issues as any[]), ...MOCK_DATA]);
+	const appState = $derived([...(data.issues as any[])]);
 
 	const todos = $derived(appState.filter((v) => v.status === 'todo'));
 	const in_progress = $derived(appState.filter((v) => v.status === 'in_progress'));
@@ -30,7 +31,7 @@
 		<Board title="TO DO" issues={todos} />
 		<Board title="IN PROGRESS" issues={in_progress} />
 		<Board title="IN REVIEW" issues={in_review} />
-		<Board title="DONE" issues={done} />
+		<Board title="DONE" issues={done} restricted={true} />
 	</div>
 </div>
 
@@ -41,6 +42,7 @@
 			use:enhance={() => {
 				return async ({ result }) => {
 					if (result.type === 'success') {
+						await invalidateAll();
 						modalRef?.close();
 					} else if (result.type == 'failure') {
 						console.log(result?.data);
@@ -82,19 +84,20 @@
 					<option value="critical">Critical</option>
 				</select>
 			</fieldset>
-			<fieldset class="fieldset">
-				<legend class="fieldset-legend">Issue Assigne</legend>
-				<input
-					name="assignee_username"
-					type="text"
-					class="input w-full"
-					autocomplete="off"
-					placeholder="Optional"
-				/>
-			</fieldset>
+			{#if data.isAdmin}
+				<fieldset class="fieldset">
+					<legend class="fieldset-legend">Issue Assigne</legend>
+					<select class="select w-full" name="assignee_username">
+						<option selected value="null">None</option>
+						{#each data.membersUsername as member}
+							<option value={member.username}>{member.fullname} (@{member.username})</option>
+						{/each}
+					</select>
+				</fieldset>
+			{/if}
 			<div class="mt-6 flex justify-end gap-2">
 				<button class="btn" onclick={() => modalRef?.close()}>Cancel</button>
-				<button type="submit" class="btn btn-primary"><Plus /> Create Project</button>
+				<button type="submit" class="btn btn-primary"><Plus /> Create Issue</button>
 			</div>
 			<p id="form_errors"></p>
 		</form>

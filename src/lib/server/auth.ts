@@ -6,7 +6,7 @@ import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '$env/static/private';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
 import type { Cookies } from '@sveltejs/kit';
 
-export type AccessTokenUser = Pick<User, 'id' | 'email' | 'username'>;
+export type AccessTokenUser = Pick<User, 'id' | 'email' | 'username' | 'fullname'>;
 const secure = false;
 
 export const createUser = async ({
@@ -24,13 +24,18 @@ export const createUser = async ({
 		[user_id, email, username, fullname, password_hash]
 	);
 
-	return makeTokens({ id: user_id, email, username });
+	return makeTokens({ id: user_id, email, username, fullname });
 };
 
 export const verifyUser = async ({ email, password }: { email: string; password: string }) => {
 	const user = await findUserByEmail(email);
 	if (!user || !(await compare(password, user.password_hash))) throw Error('Invalid credentials');
-	return makeTokens({ id: user.id, email: user.email, username: user.username });
+	return makeTokens({
+		id: user.id,
+		email: user.email,
+		username: user.username,
+		fullname: user.fullname
+	});
 };
 
 export const verifyAccessToken = (token: string): Promise<JwtPayload | string> => {
@@ -89,12 +94,13 @@ const generateAccessToken = (user: AccessTokenUser) =>
 const generateRefreshToken = (user: AccessTokenUser) =>
 	jwt.sign(user, REFRESH_TOKEN_SECRET as string, { expiresIn: '7d' });
 
-export const makeTokens = ({ id, email, username }: AccessTokenUser) => {
-	const accessToken = generateAccessToken({ id, email, username });
+export const makeTokens = ({ id, email, username, fullname }: AccessTokenUser) => {
+	const accessToken = generateAccessToken({ id, email, username, fullname });
 	const refreshToken = generateRefreshToken({
 		id,
 		email,
-		username
+		username,
+		fullname
 	});
 
 	return [accessToken, refreshToken];

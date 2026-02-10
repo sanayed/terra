@@ -103,6 +103,7 @@
 	.data-table {
 		width: 100%;
 		border: 1px solid #d6d6e7;
+		border-collapse: separate;
 		font-family:
 			system-ui,
 			-apple-system,

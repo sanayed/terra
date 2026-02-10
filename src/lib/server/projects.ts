@@ -1,6 +1,7 @@
 import { v4 } from 'uuid';
 import db from './db/db';
-import type { Member, Project } from './db/models';
+import type { Member, Project, User } from './db/models';
+import type { RowDataPacket } from 'mysql2';
 
 export const getAllProjects = async (user_id: string) => {
 	const [rows] = await db.query<Project[]>(
@@ -24,6 +25,24 @@ export const getMembers = async (project_id: string) => {
     		u.username,
     		u.email,
     		pm.role
+		FROM project_members pm
+		INNER JOIN users u ON pm.user_id = u.id
+		WHERE pm.project_id = ? 
+		ORDER BY 
+		    FIELD(pm.role, 'admin', 'manager', 'member'),
+		    u.fullname;`,
+		[project_id]
+	);
+	return rows;
+};
+
+interface MembersUsername extends RowDataPacket, Pick<User, 'id' | 'fullname' | 'username'> {}
+export const getMembersUsername = async (project_id: string) => {
+	const [rows] = await db.query<MembersUsername[]>(
+		`SELECT 
+    		u.id,
+    		u.fullname,
+    		u.username
 		FROM project_members pm
 		INNER JOIN users u ON pm.user_id = u.id
 		WHERE pm.project_id = ? 

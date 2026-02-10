@@ -103,11 +103,11 @@
 				{/if}
 
 				{#if error}
-					<p class="error-text">{error}</p>
+					<p class="error-text my-1 text-error">{error}</p>
 				{/if}
 
 				<!-- Submit -->
-				<button type="submit" class="btn w-full btn-primary">
+				<button type="submit" class="btn mt-2 w-full btn-primary">
 					{mode === 'login' ? 'Sign in' : 'Create account'}
 				</button>
 			</form>

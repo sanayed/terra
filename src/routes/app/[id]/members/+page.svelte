@@ -1,10 +1,22 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { invalidateAll } from '$app/navigation';
 	import { Plus, UserMinus } from '@lucide/svelte';
 
 	const { data } = $props();
 
 	let formError = $state('');
+
+	const kickUser = async (id: string) => {
+		const fd = new FormData();
+		fd.append('userid', id);
+		const res = await fetch('?/kick', { method: 'POST', body: fd });
+
+		if (!res.ok) {
+			console.log('Failed to kick user');
+		}
+		invalidateAll();
+	};
 
 	let modalRef: HTMLDialogElement | undefined = $state();
 </script>
@@ -47,7 +59,11 @@
 						<td>{member.role}</td>
 						{#if data.isAdmin}
 							<th>
-								<button class="btn btn-error" disabled={member.id == data.project.created_by}>
+								<button
+									class="btn btn-error"
+									disabled={member.id == data.project.created_by}
+									onclick={() => kickUser(member.id)}
+								>
 									<UserMinus />
 									Kick
 								</button>
@@ -71,10 +87,12 @@
 					return async ({ result }) => {
 						if (result.type === 'success') {
 							formError = '';
+							invalidateAll()
 							modalRef?.close();
 						} else if (result.type == 'failure') {
 							formError = result?.data?.message as string;
 						}
+						
 					};
 				}}
 			>

@@ -35,13 +35,13 @@ export const actions: Actions = {
 			if (password !== confirmPassword) return fail(400, { error: 'Passwords do not match.' });
 
 			try {
-				const [accessToken, refreshToken] = await createUser({
+				await createUser({
 					email,
 					username,
 					fullname,
 					password
 				});
-				setCookie(cookies, { accessToken, refreshToken });
+				return { success: true, message: 'Signup Succes! Login to continue.', mode: 'signup' };
 			} catch (error: unknown) {
 				const message = error instanceof Error ? error.message : 'An unknown error occurred';
 				return fail(400, { error: message });

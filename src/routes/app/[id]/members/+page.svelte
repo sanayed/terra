@@ -87,12 +87,11 @@
 					return async ({ result }) => {
 						if (result.type === 'success') {
 							formError = '';
-							invalidateAll()
+							invalidateAll();
 							modalRef?.close();
 						} else if (result.type == 'failure') {
 							formError = result?.data?.message as string;
 						}
-						
 					};
 				}}
 			>

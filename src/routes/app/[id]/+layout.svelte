@@ -5,7 +5,7 @@
 
 	let { children, data } = $props();
 	// svelte-ignore state_referenced_locally
-		setUser(data.user, data.isAdmin);
+	setUser(data.user, data.isAdmin);
 </script>
 
 <svelte:head><title>{data.project.name} - Terra</title></svelte:head>

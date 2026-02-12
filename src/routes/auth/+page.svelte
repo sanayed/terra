@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { goto } from '$app/navigation';
 
 	let { form } = $props();
 
@@ -27,7 +28,21 @@
 					: 'Join us — it only takes a minute.'}
 			</p>
 
-			<form use:enhance method="POST">
+			<form
+				use:enhance={() => {
+					return async ({ result }) => {
+						if (result.type === 'success') {
+							if (result?.data?.mode == 'signup') {
+								alert(result.data.message);
+								mode = 'login';
+							}
+						} else if (result.type === 'redirect') {
+							goto(result.location);
+						}
+					};
+				}}
+				method="POST"
+			>
 				<input type="hidden" name="mode" value={mode} />
 
 				{#if mode == 'signup'}

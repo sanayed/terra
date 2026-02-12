@@ -23,8 +23,6 @@ export const createUser = async ({
 		'INSERT INTO users (id, email, username, fullname, password_hash) VALUES (?, ?, ?, ?, ?)',
 		[user_id, email, username, fullname, password_hash]
 	);
-
-	return makeTokens({ id: user_id, email, username, fullname });
 };
 
 export const verifyUser = async ({ email, password }: { email: string; password: string }) => {

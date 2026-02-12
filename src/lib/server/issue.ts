@@ -39,8 +39,6 @@ export const createNewIssue = async ({
 		assignee_id = res[0].id;
 	}
 
-	console.log('Assignee Details: ', assignee_id, assignee_username);
-
 	return await db.query(
 		'INSERT INTO issues (id, project_id, description, issue_type, priority, reporter_id, reporter_uname, assignee_id, assignee_uname) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
 		[

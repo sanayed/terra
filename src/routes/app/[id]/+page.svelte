@@ -3,10 +3,12 @@
 	import { invalidateAll } from '$app/navigation';
 	import { MOCK_DATA } from '$lib';
 	import Board from '$lib/components/board/Board.svelte';
+	import { getUser } from '$lib/store.svelte.js';
 	import { Plus } from '@lucide/svelte';
 	const { data } = $props();
 
 	const appState = $derived([...(data.issues as any[])]);
+	const isAdmin = getUser().isAdmin;
 
 	const todos = $derived(appState.filter((v) => v.status === 'todo'));
 	const in_progress = $derived(appState.filter((v) => v.status === 'in_progress'));
@@ -16,7 +18,7 @@
 	let modalRef: HTMLDialogElement | undefined;
 </script>
 
-<div class="width mx-auto w-full max-w-7xl">
+<div class="width mx-auto w-full max-w-7xl flex flex-col">
 	<div class="breadcrumbs px-3 text-sm">
 		<ul>
 			<li><a href="/app">Projects</a></li>
@@ -27,11 +29,11 @@
 		<h1 class="text-3xl font-semibold text-primary">Board</h1>
 		<button class="btn btn-primary" onclick={() => modalRef?.showModal()}>Create new Issue</button>
 	</div>
-	<div class="my-3 inline-flex w-full space-x-3 overflow-x-auto px-3">
+	<div class="my-3 inline-flex w-full space-x-3 overflow-x-auto flex-1 px-3">
 		<Board title="TO DO" issues={todos} />
 		<Board title="IN PROGRESS" issues={in_progress} />
 		<Board title="IN REVIEW" issues={in_review} />
-		<Board title="DONE" issues={done} restricted={true} />
+		<Board title="DONE" issues={done} restricted={!isAdmin} />
 	</div>
 </div>
 

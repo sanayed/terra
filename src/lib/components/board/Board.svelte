@@ -142,21 +142,9 @@
 	}
 
 	function openMenu(e: MouseEvent, issue: Issue) {
+		e.preventDefault();
 		const isAuthorized = issue.reporter_id == user.id;
-		let items = [
-			{
-				label: 'Hello',
-				action: () => {
-					console.log('Hello');
-				}
-			},
-			{
-				label: 'Hai',
-				action: () => {
-					console.log('Hai');
-				}
-			}
-		];
+		let items = [];
 
 		if (isAdmin || isAuthorized) {
 			items.push({
@@ -166,7 +154,10 @@
 				}
 			});
 		}
-		e.preventDefault();
+
+		if (items.length == 0) {
+			return;
+		}
 		openContextMenu({
 			x: e.clientX,
 			y: e.clientY,
@@ -178,7 +169,7 @@
 <div
 	class="flex h-full w-full min-w-60 flex-col rounded-lg border border-base-content/20 bg-base-300 transition-all"
 >
-	<span class="mx-3 mt-3 text-sm text-base-content/50 select-none">{title} {restricted}</span>
+	<span class="mx-3 mt-3 text-sm text-base-content/50 select-none">{title}</span>
 
 	{#if error}
 		<div class="mx-3 rounded bg-error/20 px-3 py-2 text-xs text-error">

@@ -1,8 +1,26 @@
 <script lang="ts">
 	import type { Issue, IssuePriority, IssueType } from '$lib';
-	import { BookOpen, BugIcon, SquareCheckBig } from '@lucide/svelte';
+	import { user } from '$lib/store.svelte';
+	import { BookOpen, BugIcon, GripVertical, SquareCheckBig } from '@lucide/svelte';
+	import { dragHandle } from 'svelte-dnd-action';
 
 	const { issue }: { issue: Issue } = $props();
+
+	const isAuthorized = () => {
+		if (user.isAdmin) {
+			return true;
+		}
+		if (issue.assignee_id == user.id) {
+			return true;
+		}
+		if (issue.reporter_id == user.id) {
+			return true;
+		}
+
+		return false;
+	};
+
+	const isDraggable = isAuthorized();
 
 	const mapIssuePriorityToColor = (priority: IssuePriority) => {
 		switch (priority) {
@@ -38,18 +56,29 @@
 		>
 	</div>
 
-	<span class={`text-xs font-semibold ${mapIssuePriorityToColor(issue.priority)}`}
-		>{issue.priority.toUpperCase()}</span
-	>
+	<div class="flex items-center gap-2">
+		<span class={`text-xs font-semibold ${mapIssuePriorityToColor(issue.priority)}`}
+			>{issue.priority.toUpperCase()}</span
+		>
+		{#if isDraggable}
+			<div
+				use:dragHandle
+				aria-label="drag-handle for {issue.description}"
+				class="rounded p-1 hover:bg-base-content/10"
+			>
+				<GripVertical class="stroke-base-content/50" size={8} />
+			</div>
+		{/if}
+	</div>
 </div>
 {issue.description}
 <span class="mt-2 text-xs text-gray-500">
 	Issue raised by: @{issue.reporter_uname} <br />
-	Assigned on: {new Date(issue.created_at).toDateString()}
-	<br />
 	{#if issue.assignee_uname != undefined}
 		Assigned to: @{issue.assignee_uname}
+		<br />
 	{/if}
+	Assigned on: {new Date(issue.created_at).toDateString()}
 </span>
 
 <!-- <span class="opacity-50">{issue.status}</span> -->

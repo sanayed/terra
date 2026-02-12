@@ -4,7 +4,8 @@
 	import { Settings, Users } from '@lucide/svelte';
 
 	let { children, data } = $props();
-	setUser(data.user, data.isAdmin);
+	// svelte-ignore state_referenced_locally
+		setUser(data.user, data.isAdmin);
 </script>
 
 <svelte:head><title>{data.project.name} - Terra</title></svelte:head>

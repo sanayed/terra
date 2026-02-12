@@ -54,7 +54,7 @@ export function closeContextMenu() {
 interface User extends Partial<AccessTokenUser> {
 	isAdmin?: boolean;
 }
-let user = $state<User>({
+export let user = $state<User>({
 	id: undefined,
 	fullname: undefined,
 	username: undefined,
@@ -62,11 +62,9 @@ let user = $state<User>({
 	isAdmin: undefined
 });
 
-export function getUser() {
-	return user;
-}
-
 export function setUser(userP: User, isAdmin: boolean) {
-	user = userP;
-	user.isAdmin = isAdmin;
+	Object.assign(user, {
+		...userP,
+		isAdmin
+	});
 }

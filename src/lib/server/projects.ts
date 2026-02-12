@@ -126,7 +126,13 @@ export const inviteUser = async (username: string, project_id: string) => {
 	const user_id = rows[0]?.id;
 
 	return await db.query(
-		'Insert into project_members (project_id, user_id, role) values (?, ?, ?)',
+		'INSERT INTO project_members (project_id, user_id, role) values (?, ?, ?)',
 		[project_id, user_id, 'member']
 	);
+};
+export const kickUser = async (userid: string, project_id: string) => {
+	return await db.query('DELETE FROM project_members WHERE user_id=? AND project_id=?', [
+		userid,
+		project_id
+	]);
 };

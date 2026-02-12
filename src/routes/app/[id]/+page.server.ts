@@ -1,9 +1,10 @@
 import { fail } from '@sveltejs/kit';
-import type { Actions } from '../$types';
+
 import { createNewIssue, deleteIssue, getIssues } from '$lib/server/issue';
 import { v4 } from 'uuid';
 import type { PageServerLoad } from './$types';
 import { getMembersUsername } from '$lib/server/projects';
+import db from '$lib/server/db/db';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const project_id = params.id;
@@ -25,7 +26,7 @@ export const actions = {
 		const priority = (fd.get('priority') as string).trim();
 		const assignee_username = String(fd.get('assignee_username'));
 
-		const project_id = params.id as string;
+		const project_id = params.id;
 		if (!project_id) {
 			return fail(400, { message: 'Project ID not found' });
 		}
@@ -55,6 +56,8 @@ export const actions = {
 		return { success: true };
 	},
 	deleteIssue: async ({ request, params, locals }) => {
+		console.log(params);
+
 		const fd = await request.formData();
 		const issue_id = String(fd.get('issue_id'));
 
@@ -69,5 +72,20 @@ export const actions = {
 			}
 			return fail(400, { message: 'Unknown error occured' });
 		}
+	},
+	updateIssueStatus: async ({ request, params, locals }) => {
+		const fd = await request.formData();
+		const issue_id = String(fd.get('issue_id'));
+		const status = String(fd.get('status'));
+
+		try {
+			await db.query('UPDATE issues SET status = ? WHERE id = ?', [status, issue_id]);
+			return { success: true };
+		} catch (error) {
+			if (error instanceof Error) {
+				return fail(400, { message: error.message });
+			}
+			return fail(400, { message: 'Unknown error occured' });
+		}
 	}
-} satisfies Actions;
+};

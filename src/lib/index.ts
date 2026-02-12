@@ -181,6 +181,8 @@ export interface Issue {
 	assignee_id: string | null;
 	assignee_uname: string | null;
 
+	commit_url?: string; // Optional URL for commits in in-review status
+
 	created_at: string; // ISO timestamp
 	updated_at: string; // ISO timestamp
 }

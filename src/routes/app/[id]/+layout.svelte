@@ -7,6 +7,7 @@
 	setUser(data.user, data.isAdmin);
 </script>
 
+<svelte:head><title>{data.project.name} - Terra</title></svelte:head>
 <main class="flex h-full">
 	<aside class="h-sidebar flex min-w-3xs flex-col border-r border-r-base-content/20 p-2">
 		<div

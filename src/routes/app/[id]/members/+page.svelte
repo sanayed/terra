@@ -3,7 +3,6 @@
 	import { Plus, UserMinus } from '@lucide/svelte';
 
 	const { data } = $props();
-	
 
 	let formError = $state('');
 

@@ -12,8 +12,8 @@ export async function deleteIssue(issueId: string) {
 
 	if (res.status == 200) {
 		await invalidateAll();
-		return
+		return;
 	}
 
-	console.log(res)
+	console.log(res);
 }

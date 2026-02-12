@@ -11,14 +11,14 @@ interface ProjectIdResp extends RowDataPacket {
 }
 
 export const checkIsAdmin = async (project_id: string, user_id: string) => {
-    const [rows] = await db.query<ProjectIdResp[]>(
-        `SELECT  p.created_by as id FROM projects p WHERE p.id = ?`,
-        [project_id]
-    );
-    if (rows.length > 0 && rows[0].id == user_id) {
-        return true;
-    }
-    return false;
+	const [rows] = await db.query<ProjectIdResp[]>(
+		`SELECT  p.created_by as id FROM projects p WHERE p.id = ?`,
+		[project_id]
+	);
+	if (rows.length > 0 && rows[0].id == user_id) {
+		return true;
+	}
+	return false;
 };
 
 export const checkIsOwnEntity = async (issue_id: string, user_id: string) => {

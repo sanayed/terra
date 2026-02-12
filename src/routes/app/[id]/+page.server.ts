@@ -63,7 +63,7 @@ export const actions = {
 			return { success: true };
 		} catch (error) {
 			console.log(error);
-			
+
 			if (error instanceof Error) {
 				return fail(400, { message: error.message });
 			}

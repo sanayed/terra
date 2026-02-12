@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { closeContextMenu,  contextMenu,  type ContextMenuItem } from '$lib/store.svelte';
+	import { closeContextMenu, contextMenu, type ContextMenuItem } from '$lib/store.svelte';
 	import { fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
 
 	let menuEl: HTMLDivElement;
-	
 
 	function onItemClick(item: ContextMenuItem) {
 		if (!item.disabled) {
@@ -35,7 +34,7 @@
 	>
 		{#each contextMenu.items as item}
 			<button
-				class="w-full text-left px-3 py-2 hover:bg-base-300 rounded-field text-sm"
+				class="w-full rounded-field px-3 py-2 text-left text-sm hover:bg-base-300"
 				on:click={() => onItemClick(item)}
 				disabled={item.disabled}
 			>
@@ -46,7 +45,7 @@
 {/if}
 
 <style>
-	button{
+	button {
 		text-align: left;
 	}
 </style>

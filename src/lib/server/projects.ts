@@ -17,6 +17,7 @@ export const getProject = async (project_id: string) => {
 	]);
 	return rows[0];
 };
+
 export const getMembers = async (project_id: string) => {
 	const [rows] = await db.query<Member[]>(
 		`SELECT 
@@ -118,3 +119,14 @@ export async function deleteProject(projectId: string, userId: string) {
 	// Delete the project (cascade will delete related records)
 	return await db.query('DELETE FROM projects WHERE id = ?', [projectId]);
 }
+
+export const inviteUser = async (username: string, project_id: string) => {
+	const [rows] = await db.query<User[]>('SELECT id FROM users WHERE username=?', [username]);
+	if (rows.length < 1) throw Error('User not found');
+	const user_id = rows[0]?.id;
+
+	return await db.query(
+		'Insert into project_members (project_id, user_id, role) values (?, ?, ?)',
+		[project_id, user_id, 'member']
+	);
+};

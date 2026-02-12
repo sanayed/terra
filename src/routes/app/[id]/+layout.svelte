@@ -1,7 +1,10 @@
 <script lang="ts">
+	import { setUser } from '$lib/store.svelte.js';
+
 	import { Settings, Users } from '@lucide/svelte';
 
 	let { children, data } = $props();
+	setUser(data.user, data.isAdmin);
 </script>
 
 <main class="flex h-full">

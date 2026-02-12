@@ -20,12 +20,11 @@ export const handle: Handle = async ({ event, resolve }) => {
 						event.cookies.get('refreshToken') as string
 					)) as AccessTokenUser;
 
-					console.log('Refresh token verified');
-
 					const [accessToken, refreshToken] = makeTokens({
 						id: user.id,
 						email: user.email,
-						username: user.username
+						username: user.username,
+						fullname: user.fullname
 					});
 
 					setCookie(event.cookies, { accessToken, refreshToken });

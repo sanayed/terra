@@ -1,14 +1,18 @@
 <script lang="ts">
-	import { dndzone } from 'svelte-dnd-action';
-	import Item from './Item.svelte';
 	import type { Issue } from '$lib';
+	import { getUser, openContextMenu } from '$lib/store.svelte';
+	import { deleteIssue } from '$lib/utils/board';
+	import { dndzone } from 'svelte-dnd-action';
 	import { flip } from 'svelte/animate';
+	import Item from './Item.svelte';
 
 	let {
 		title,
 		issues,
 		restricted = false
 	}: { title: string; issues: Issue[]; restricted?: boolean } = $props();
+
+	const isAdmin = getUser().isAdmin;
 	const flipDurationMs = 300;
 
 	function handleDndConsider(e: any) {
@@ -16,6 +20,39 @@
 	}
 	function handleDndFinalize(e: any) {
 		issues = e.detail.items;
+	}
+
+	function openMenu(e: MouseEvent, issue: Issue) {
+		const isAuthorized = issue.reporter_id == getUser().id;
+		let items = [
+			{
+				label: 'Hello',
+				action: () => {
+					console.log('Hello');
+				}
+			},
+			{
+				label: 'Hai',
+				action: () => {
+					console.log('Hai');
+				}
+			}
+		];
+
+		if (isAdmin || isAuthorized) {
+			items.push({
+				label: 'Delete',
+				action: () => {
+					deleteIssue(issue.id);
+				}
+			});
+		}
+		e.preventDefault();
+		openContextMenu({
+			x: e.clientX,
+			y: e.clientY,
+			items
+		});
 	}
 </script>
 
@@ -35,12 +72,13 @@
 			onfinalize={handleDndFinalize}
 		>
 			{#each issues as issue (issue.id)}
-				<div
+				<button
+					oncontextmenu={(e) => openMenu(e, issue)}
 					animate:flip={{ duration: flipDurationMs }}
-					class="flex flex-col rounded-lg border border-base-content/20 bg-base-100 p-3"
+					class="flex w-full flex-col rounded-lg border border-base-content/20 bg-base-100 p-3 text-left"
 				>
 					<Item {issue} />
-				</div>
+				</button>
 			{/each}
 		</ul>
 	{:else}

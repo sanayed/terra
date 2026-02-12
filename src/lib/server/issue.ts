@@ -1,5 +1,6 @@
 import type { RowDataPacket } from 'mysql2';
 import db from './db/db';
+import { checkIsAdmin, checkIsOwnEntity } from '$lib/utils/server';
 
 type NewIssueProps = {
 	issue_id: string;
@@ -58,4 +59,24 @@ export const createNewIssue = async ({
 
 export const getIssues = async (project_id: string) => {
 	return (await db.query('SELECT * FROM issues WHERE project_id = ?', [project_id]))[0];
+};
+
+export const deleteIssue = async (project_id: string, issue_id: string, user_id: string) => {
+	// Check autherization
+	// Admin can delete any issues
+	const isAdmin = await checkIsAdmin(project_id, user_id);
+	if (isAdmin) {
+		// Proceed
+		await db.query('DELETE FROM issues WHERE id=?', [issue_id]);
+		return;
+	}
+	// Check if the user had created the issue
+	const isAuthorized = await checkIsOwnEntity(issue_id, user_id);
+	if (isAuthorized) {
+		// Proceed
+		await db.query('DELETE FROM issues WHERE id=?', [issue_id]);
+		return;
+	}
+
+	throw Error('Unauthorized');
 };

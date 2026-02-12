@@ -44,6 +44,7 @@
 </div>
 {issue.description}
 <span class="mt-2 text-xs text-gray-500">
+	Issue raised by: @{issue.reporter_uname} <br />
 	Assigned on: {new Date(issue.created_at).toDateString()}
 	<br />
 	{#if issue.assignee_uname != undefined}

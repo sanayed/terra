@@ -80,5 +80,3 @@
 	{/if}
 	Assigned on: {new Date(issue.created_at).toDateString()}
 </span>
-
-<!-- <span class="opacity-50">{issue.status}</span> -->

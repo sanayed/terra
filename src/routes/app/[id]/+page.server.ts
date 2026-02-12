@@ -12,6 +12,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	try {
 		const issues = await getIssues(project_id);
 		const membersUsername = await getMembersUsername(project_id);
+
 		return { issues, membersUsername };
 	} catch {
 		return fail(400, { message: 'Unknown error occured' });

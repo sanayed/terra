@@ -24,7 +24,6 @@ export const createNewIssue = async ({
 	type,
 	priority,
 	reporter_id,
-	reporter_username,
 	assignee_username
 }: NewIssueProps) => {
 	let assignee_id: string | undefined;
@@ -40,23 +39,26 @@ export const createNewIssue = async ({
 	}
 
 	return await db.query(
-		'INSERT INTO issues (id, project_id, description, issue_type, priority, reporter_id, reporter_uname, assignee_id, assignee_uname) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-		[
-			issue_id,
-			project_id,
-			description,
-			type,
-			priority,
-			reporter_id,
-			reporter_username,
-			assignee_id,
-			assignee_username
-		]
+		'INSERT INTO issues (id, project_id, description, issue_type, priority, reporter_id, assignee_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
+		[issue_id, project_id, description, type, priority, reporter_id, assignee_id]
 	);
 };
 
 export const getIssues = async (project_id: string) => {
-	return (await db.query('SELECT * FROM issues WHERE project_id = ?', [project_id]))[0];
+	return (
+		await db.query(
+			`SELECT 
+				i.*,
+				r.username AS reporter_uname,
+				a.username AS assignee_uname
+			FROM issues i
+			JOIN users r ON i.reporter_id = r.id
+			LEFT JOIN users a ON i.assignee_id = a.id
+			WHERE i.project_id = ?;
+			`,
+			[project_id]
+		)
+	)[0];
 };
 
 export const deleteIssue = async (project_id: string, issue_id: string, user_id: string) => {

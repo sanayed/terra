@@ -11,9 +11,7 @@ export const MOCK_DATA: Issue[] = [
 		reporter_id: 'f2a1c3b4-5d6e-4f7a-8b9c-101112131415',
 		assignee_id: 'a9b8c7d6-e5f4-4a3b-9c8d-212223242526',
 		created_at: '2025-01-10T08:30:00Z',
-		updated_at: '2025-01-10T08:30:00Z',
-		reporter_uname: '',
-		assignee_uname: null
+		updated_at: '2025-01-10T08:30:00Z'
 	},
 	{
 		id: 'a4b9c8d7-1e2f-4a3b-9c8d-3f4e5a6b9002',
@@ -25,9 +23,7 @@ export const MOCK_DATA: Issue[] = [
 		reporter_id: 'f2a1c3b4-5d6e-4f7a-8b9c-101112131415',
 		assignee_id: 'd4c3b2a1-9e8f-4a7b-8c6d-313233343536',
 		created_at: '2025-01-10T09:00:00Z',
-		updated_at: '2025-01-10T09:00:00Z',
-		reporter_uname: '',
-		assignee_uname: null
+		updated_at: '2025-01-10T09:00:00Z'
 	},
 	{
 		id: 'e6d5c4b3-2a1f-4b9c-8d7e-4a5b6c7d9003',
@@ -39,9 +35,7 @@ export const MOCK_DATA: Issue[] = [
 		reporter_id: 'f2a1c3b4-5d6e-4f7a-8b9c-101112131415',
 		assignee_id: null,
 		created_at: '2025-01-10T09:20:00Z',
-		updated_at: '2025-01-10T09:20:00Z',
-		reporter_uname: '',
-		assignee_uname: null
+		updated_at: '2025-01-10T09:20:00Z'
 	},
 
 	{
@@ -54,9 +48,7 @@ export const MOCK_DATA: Issue[] = [
 		reporter_id: 'f2a1c3b4-5d6e-4f7a-8b9c-101112131415',
 		assignee_id: 'a9b8c7d6-e5f4-4a3b-9c8d-212223242526',
 		created_at: '2025-01-09T13:00:00Z',
-		updated_at: '2025-01-11T10:15:00Z',
-		reporter_uname: '',
-		assignee_uname: null
+		updated_at: '2025-01-11T10:15:00Z'
 	},
 	{
 		id: 'd3e2c1b0-a9f8-4e7d-8c6b-6a5f4e3d9005',
@@ -68,9 +60,7 @@ export const MOCK_DATA: Issue[] = [
 		reporter_id: 'f2a1c3b4-5d6e-4f7a-8b9c-101112131415',
 		assignee_id: 'c1d2e3f4-a5b6-4c7d-8e9f-414243444546',
 		created_at: '2025-01-09T10:45:00Z',
-		updated_at: '2025-01-11T09:50:00Z',
-		reporter_uname: '',
-		assignee_uname: null
+		updated_at: '2025-01-11T09:50:00Z'
 	},
 
 	{
@@ -83,9 +73,7 @@ export const MOCK_DATA: Issue[] = [
 		reporter_id: 'f2a1c3b4-5d6e-4f7a-8b9c-101112131415',
 		assignee_id: 'c1d2e3f4-a5b6-4c7d-8e9f-414243444546',
 		created_at: '2025-01-08T15:00:00Z',
-		updated_at: '2025-01-12T08:10:00Z',
-		reporter_uname: '',
-		assignee_uname: null
+		updated_at: '2025-01-12T08:10:00Z'
 	},
 	{
 		id: '3a4b5c6d-7e8f-4a9b-8c7d-8e9f0a1b9007',
@@ -97,9 +85,7 @@ export const MOCK_DATA: Issue[] = [
 		reporter_id: 'f2a1c3b4-5d6e-4f7a-8b9c-101112131415',
 		assignee_id: 'a9b8c7d6-e5f4-4a3b-9c8d-212223242526',
 		created_at: '2025-01-08T11:30:00Z',
-		updated_at: '2025-01-12T09:00:00Z',
-		reporter_uname: '',
-		assignee_uname: null
+		updated_at: '2025-01-12T09:00:00Z'
 	},
 
 	{
@@ -112,9 +98,7 @@ export const MOCK_DATA: Issue[] = [
 		reporter_id: 'f2a1c3b4-5d6e-4f7a-8b9c-101112131415',
 		assignee_id: 'd4c3b2a1-9e8f-4a7b-8c6d-313233343536',
 		created_at: '2025-01-07T10:00:00Z',
-		updated_at: '2025-01-12T16:20:00Z',
-		reporter_uname: '',
-		assignee_uname: null
+		updated_at: '2025-01-12T16:20:00Z'
 	},
 	{
 		id: '5d4c3b2a-1f0e-4d9c-8b7a-0e1f2a3b9009',
@@ -126,9 +110,7 @@ export const MOCK_DATA: Issue[] = [
 		reporter_id: 'f2a1c3b4-5d6e-4f7a-8b9c-101112131415',
 		assignee_id: 'd4c3b2a1-9e8f-4a7b-8c6d-313233343536',
 		created_at: '2025-01-07T14:15:00Z',
-		updated_at: '2025-01-12T17:00:00Z',
-		reporter_uname: '',
-		assignee_uname: null
+		updated_at: '2025-01-12T17:00:00Z'
 	},
 
 	{
@@ -141,9 +123,7 @@ export const MOCK_DATA: Issue[] = [
 		reporter_id: 'f2a1c3b4-5d6e-4f7a-8b9c-101112131415',
 		assignee_id: 'a9b8c7d6-e5f4-4a3b-9c8d-212223242526',
 		created_at: '2025-01-05T09:00:00Z',
-		updated_at: '2025-01-13T16:45:00Z',
-		reporter_uname: '',
-		assignee_uname: null
+		updated_at: '2025-01-13T16:45:00Z'
 	},
 	{
 		id: '9a8b7c6d-5e4f-4a3b-8c9d-2f3e4d5c9011',
@@ -155,9 +135,7 @@ export const MOCK_DATA: Issue[] = [
 		reporter_id: 'f2a1c3b4-5d6e-4f7a-8b9c-101112131415',
 		assignee_id: null,
 		created_at: '2025-01-04T12:00:00Z',
-		updated_at: '2025-01-14T11:30:00Z',
-		reporter_uname: '',
-		assignee_uname: null
+		updated_at: '2025-01-14T11:30:00Z'
 	}
 ];
 
@@ -177,11 +155,11 @@ export interface Issue {
 	priority: IssuePriority;
 
 	reporter_id: string; // uuid v4
-	reporter_uname: string; // uuid v4
 	assignee_id: string | null;
-	assignee_uname: string | null;
 
 	commit_url?: string; // Optional URL for commits in in-review status
+	assignee_uname?: string;
+	reporter_uname?: string;
 
 	created_at: string; // ISO timestamp
 	updated_at: string; // ISO timestamp

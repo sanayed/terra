@@ -34,7 +34,7 @@ export interface ProjectMember extends RowDataPacket {
 
 // --- Issues ---
 export type IssueType = 'task' | 'bug' | 'story';
-export type IssueStatus = 'todo' | 'in_progress' | 'review' | 'done';
+export type IssueStatus = 'todo' | 'in_progress' | 'in_review' | 'done';
 export type IssuePriority = 'low' | 'medium' | 'high' | 'critical';
 
 export interface Issue extends RowDataPacket {

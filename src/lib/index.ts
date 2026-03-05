@@ -1,4 +1,5 @@
 // place files you want to import through the `$lib` alias in this folder.
+import { KeyboardSensor, PointerSensor } from '@dnd-kit-svelte/svelte';
 
 export const MOCK_DATA: Issue[] = [
 	{
@@ -164,3 +165,5 @@ export interface Issue {
 	created_at: string; // ISO timestamp
 	updated_at: string; // ISO timestamp
 }
+
+export const sensors = [KeyboardSensor, PointerSensor];

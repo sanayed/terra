@@ -80,3 +80,22 @@ export const deleteIssue = async (project_id: string, issue_id: string, user_id:
 
 	throw Error('Unauthorized');
 };
+
+export const updateIssueStatus = async (
+    issue_id: string,
+    status: string,
+    user_id: string,
+    project_id: string
+) => {
+    // Only project members can update issues
+    const [rows] = await db.query<IUserID[]>(
+        'SELECT id FROM project_members WHERE project_id = ? AND user_id = ?',
+        [project_id, user_id]
+    );
+    if (!rows[0]) throw Error('Unauthorized');
+
+    await db.query(
+        'UPDATE issues SET status = ? WHERE id = ? AND project_id = ?',
+        [status, issue_id, project_id]
+    );
+};

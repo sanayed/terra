@@ -40,6 +40,8 @@
 		"vite": "^7.2.6"
 	},
 	"dependencies": {
+		"@dnd-kit-svelte/svelte": "^0.1.6",
+		"@dnd-kit/helpers": "^0.2.4",
 		"@lucide/svelte": "^0.562.0",
 		"bcrypt": "^6.0.0",
 		"jsonwebtoken": "^9.0.3",

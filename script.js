@@ -1,6 +1,4 @@
-// place files you want to import through the `$lib` alias in this folder.
-
-export const MOCK_DATA: Issue[] = [
+export const MOCK_DATA = [
 	{
 		id: 'c1f8a2c3-4c2e-4e2f-b2b1-1d8f5d2a9001',
 		project_id: '9b7e6d4c-3a2b-4c5d-8e9f-1a2b3c4d5000',
@@ -139,28 +137,19 @@ export const MOCK_DATA: Issue[] = [
 	}
 ];
 
-export type IssueType = 'task' | 'bug' | 'story';
+var board = new Map();
 
-export type IssueStatus = 'todo' | 'in_progress' | 'in_review' | 'done';
+MOCK_DATA.forEach((issue) => {
+	board.set(issue.status, [...(board.get(issue.status) || []), issue]);
+});
 
-export type IssuePriority = 'low' | 'medium' | 'high' | 'critical';
+// function issuesToBoard(issues) {
+// 	return {
+// 		todo: issues.filter((v) => v.status === 'todo'),
+// 		in_progress: issues.filter((v) => v.status === 'in_progress'),
+// 		in_review: issues.filter((v) => v.status === 'in_review'),
+// 		done: issues.filter((v) => v.status === 'done')
+// 	};
+// }
 
-export interface Issue {
-	id: string; // uuid v4
-	project_id: string; // uuid v4
-	description: string;
-
-	issue_type: IssueType;
-	status: IssueStatus;
-	priority: IssuePriority;
-
-	reporter_id: string; // uuid v4
-	assignee_id: string | null;
-
-	commit_url?: string; // Optional URL for commits in in-review status
-	assignee_uname?: string;
-	reporter_uname?: string;
-
-	created_at: string; // ISO timestamp
-	updated_at: string; // ISO timestamp
-}
+console.log(board);

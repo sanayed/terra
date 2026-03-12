@@ -8,7 +8,7 @@
 
 <svelte:head><title>Terra - Projects</title></svelte:head>
 <Header username={data.user.username} email={data.user.email} />
-<main class="min-h-dvh pt-(--header-height)">
+<main class="h-dvh pt-(--header-height)">
 	{@render children()}
 </main>
 <ContextMenu />

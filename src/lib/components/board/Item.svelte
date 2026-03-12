@@ -2,9 +2,8 @@
 	import type { Issue, IssuePriority, IssueType } from '$lib';
 	import { openContextMenu, user } from '$lib/store.svelte';
 	import { deleteIssue } from '$lib/utils/board';
-	import { useSortable, type UseSortableInput } from '@dnd-kit-svelte/svelte/sortable';
+
 	import { BookOpen, BugIcon, GripVertical, SquareCheckBig } from '@lucide/svelte';
-	import { dragHandle } from 'svelte-dnd-action';
 
 	interface Props extends UseSortableInput {
 		issue: Issue;

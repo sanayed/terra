@@ -2,7 +2,8 @@
 	import { enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 	import type { Issue } from '$lib';
-	import BoardContainer from '$lib/components/board/BoardContainer.svelte';
+	// import BoardContainer from '$lib/components/board/BoardContainer.svelte';
+	import DragContainer from '$lib/components/boardV2/drag-container.svelte';
 	import { Plus } from '@lucide/svelte';
 
 	const { data } = $props();
@@ -11,7 +12,7 @@
 	let modalRef: HTMLDialogElement | undefined;
 </script>
 
-<div class="width mx-auto flex w-full max-w-7xl flex-col">
+<div class="width mx-auto flex h-full w-full max-w-7xl flex-col">
 	<div class="breadcrumbs px-3 text-sm">
 		<ul>
 			<li><a href="/app">Projects</a></li>
@@ -23,7 +24,8 @@
 		<button class="btn btn-primary" onclick={() => modalRef?.showModal()}>Create new Issue</button>
 	</div>
 	<!-- <div class="my-3 inline-flex w-full flex-1 space-x-3 overflow-x-auto px-3"> -->
-		<BoardContainer {issues} />
+	<!-- <BoardContainer {issues} /> -->
+	<DragContainer {issues} />
 	<!-- </div> -->
 </div>
 

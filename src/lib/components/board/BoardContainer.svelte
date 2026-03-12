@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { DragDropProvider, DragOverlay } from '@dnd-kit-svelte/svelte';
-	import { RestrictToWindowEdges } from '@dnd-kit-svelte/svelte/modifiers';
 	import { move } from '@dnd-kit/helpers';
 	import Item from './Item.svelte';
 	import { sensors, type Issue } from '$lib';
@@ -8,7 +6,6 @@
 
 	let { issues }: { issues: Issue[] } = $props();
 
-	// Convert flat array → Record once, then manage locally
 	type Board = Record<string, Issue[]>;
 
 	function issuesToBoard(issues: Issue[]): Board {
@@ -22,7 +19,6 @@
 
 	let board = $state<Board>(issuesToBoard(issues));
 
-	// Re-sync if issues prop changes externally (e.g. server refresh)
 	$effect(() => {
 		board = issuesToBoard(issues);
 	});

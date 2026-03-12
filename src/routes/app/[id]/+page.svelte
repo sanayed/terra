@@ -3,7 +3,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import type { Issue } from '$lib';
 	// import BoardContainer from '$lib/components/board/BoardContainer.svelte';
-	import DragContainer from '$lib/components/boardV2/drag-container.svelte';
+	import DragContainer from '$lib/components/board/drag-container.svelte';
 	import { Plus } from '@lucide/svelte';
 
 	const { data } = $props();

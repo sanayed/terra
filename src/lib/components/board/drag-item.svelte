@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Issue, IssuePriority, IssueType } from '$lib';
+	import { PermissionManager } from '$lib/PermissionResolver.svelte';
 	import { openContextMenu, user } from '$lib/store.svelte';
 	import { deleteIssue } from '$lib/utils/board';
 	import { createSortable } from '@dnd-kit/svelte/sortable';
